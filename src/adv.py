@@ -24,13 +24,13 @@ earlier adventurers. The only exit is to the south."""),
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
+room['outside'].w_to = room['foyer']
 room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
+room['foyer'].w_to = room['overlook']
+room['foyer'].d_to = room['narrow']
 room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
+room['narrow'].a_to = room['foyer']
+room['narrow'].w_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 #
@@ -38,10 +38,18 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+new_player = Player('Miley', room['outside'])
 # Write a loop that:
-#
+def check_location(move):
 # * Prints the current room name
+    current = new_player.current_room
+    if current.__dict__[f'{move}_to'] == None:
+        print('\n **There\'s nothing there! **')
+    else:
+        new_player.room = current.__dict__[f'{move}_to']
+while True:
+    current = new_player.current_room
+    print(current)
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 #
