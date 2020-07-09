@@ -46,14 +46,24 @@ def check_location(move):
     if current.__dict__[f'{move}_to'] == None:
         print('\n **There\'s nothing there! **')
     else:
-        new_player.room = current.__dict__[f'{move}_to']
+        new_player.current_room = current.__dict__[f'{move}_to']
 while True:
     current = new_player.current_room
     print(current)
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
-#
+    movement_choice = ['w', 'a', 's', 'd']
+    print(f'\n****Hello {new_player.name}. Your current location is {current}****')
+    choice = input(f'What would you like to do? Move: [north(w), south(s), east(d), west(a), or quit(q)?')
 # If the user enters a cardinal direction, attempt to move to the room there.
+    if choice in movement_choice:
+        check_location(choice)
 # Print an error message if the movement isn't allowed.
-#
+    # elif choice not in movement_choice:
+    #     print('\nForbidden movement input.')
 # If the user enters "q", quit the game.
+    elif choice == "q":
+        print('Thanks for playing!')
+        exit()
+    else:
+        print('\nForbidden movement input.')
