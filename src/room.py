@@ -18,6 +18,6 @@ class Room:
         del self.items[item]
 
     def __str__(self):
-        if items is not None:
-            return f""
+        # if self.items is not None:
+        #     return f""
         return f'{self.name}, {self.description}'

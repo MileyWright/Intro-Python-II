@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 # Declare all the rooms
 
 room = {
@@ -36,9 +37,13 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-
+# items = [
+#     Item(1, 'Sword', 'a killing machine'),
+#     Item(2, 'Knife', 'a slaying machine')
+# ]
 # Make a new player object that is currently in the 'outside' room.
-new_player = Player('Miley', room['outside'])
+inventory=[]
+new_player = Player('Miley', room['outside'], inventory)
 # Write a loop that:
 def check_location(move):
 # * Prints the current room name
@@ -47,17 +52,41 @@ def check_location(move):
         print('\n **There\'s nothing there! **')
     else:
         new_player.current_room = current.__dict__[f'{move}_to']
+
+def open_inventory():
+    # prints out players inventory
+    print('Inventory: ')
+    new_player.open_inventory()
+
+lantern = Item('lantern', 'This lantern will help light the way')
+room['foyer'].add_item(lantern)
+print(len(new_player.current_room.items))
+
 while True:
     current = new_player.current_room
     # print(f"\n {current}")
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
     movement_choice = ['w', 'a', 's', 'd']
-    print(f'\n****Hello {new_player.name}. Your current location is {current}****')
-    choice = input(f'\n =What would you like to do? Move: [north(w), south(s), east(d), west(a), or quit(q)?')
+    print(f'\n**************************************** \n****Hello {new_player.name}. Your current location is {current}****')
+    choice = input(f'\n =What would you like to do? \n\n Look for weapons?: [Look for(l), Pick up(p), Open Inventory(i)]\n            or \n Move: [north(w), south(s), east(d), west(a)] or quit(q)?')
 # If the user enters a cardinal direction, attempt to move to the room there.
     if choice in movement_choice:
         check_location(choice)
+
+    elif choice == "l":
+        if len(new_player.current_room.items) != 0:
+            print(f'\n You found a {new_player.current_room.items[0]}')
+        else:
+            print('There are no items in this room')
+
+    elif choice == "p":
+        # new_player.current_room.remove_item(new_player.current_room.items[0])
+        player_item = new_player.items.append(new_player.current_room.items[0])
+        print(f' You picked up {new_player.current_room.items[0]}')
+    
+    elif choice == "i":
+        open_inventory()
 # Print an error message if the movement isn't allowed.
     # elif choice not in movement_choice:
     #     print('\nForbidden movement input.')
